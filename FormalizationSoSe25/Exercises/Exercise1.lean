@@ -1,6 +1,6 @@
 -- Here are couple basic exercises to get you started with Lean.
 
-
+section exercises1s
 -- ###NON-TACTICS EXERCISES###
 --  Recall that Nat are the natural numbers in Lean.
 #check Nat
@@ -56,3 +56,68 @@ def exercise3tactics : (b + c) * a  = a * b + a * c:= by sorry
 
 -- Now, we can use the `rw` tactic to solve the exercise 4:
 def exercise4 : (b + c) * a  = b * a + c * a:= by sorry
+
+end exercises1s
+-- --------------------------------------------
+section general_stuff
+-- some of my own notes
+#check And
+variable (p q r: Prop)
+#check And p q
+#check p ∧ q
+
+variable (t : p)
+#check t
+
+end general_stuff
+
+section proposition_as_types
+
+variable {p q : Prop}
+theorem t1a: p → q → p := fun hp : p ↦ fun hq : q ↦ hp
+
+theorem t1 (hp : p) (hq : q) : p := hp
+#check t1
+
+#print t1
+
+axiom h : p
+#check h
+
+theorem t2: q → p := (t1  h)
+
+end proposition_as_types
+
+section lean_syntax
+
+#eval String.append "Hello, " "lean"
+
+#eval String.append "it is " (if 1>2 then "yes" else "no")
+
+#eval (1-2 : Int)
+
+def add1 (n : Nat) : Nat := n+1
+#eval add1 2
+
+#check add1
+
+def Str : Type := String
+
+structure Point where
+  x : Float
+  y : Float
+deriving Repr
+
+def origin : Point := {x:= 0.0, y := 0.0}
+#eval origin
+
+def zeroX (p : Point) : Point := {p with x := 0}
+
+#check Point.x
+
+#eval "something ".append " else"
+
+def Point.modifyBoth (f : Float → Float) (p : Point) : Point :=
+{ x := f p.x, y :=  f p.y}
+
+end lean_syntax
