@@ -1,16 +1,19 @@
--- Here is a first `import Mathlib.Tactic` to get things started.
--- Based on the definitions you need, you can add more imports right below.
 import Mathlib.Tactic
--- Theoretically, you could just write `import Mathlib`, but this will be somewhat slower.
 
-/- Remember we can open namespaces to shorten names and enable notation.
+universe u
 
-For example (feel free to change it): -/
-open Function Set
+section set_operations
+  def SetInv (X : Type*) : Set (X × X) → Set (X × X) := by
+    intro sub e
+    have ⟨ e1, e2 ⟩ := e
+    exact sub ⟨ e2, e1 ⟩
+  def SetDiag (X : Type*) : X → X := fun x : X => x
+  def SetProd (X : Type*) : Set (X × X) → Set (X × X) → Set (X × X) := by
+    intro sub₁ sub₂ e₁
 
-/- Remember if many new definitions require a `noncomputable` either in the `section` or definition.
+end set_operations
 
-For example (feel free to change it): -/
-noncomputable section
 
-/- You can now start writing definitions and theorems. -/
+class CoarseSpace (X : Type u) where
+  IsControlled : Set (X × X) → Prop
+  IsControlled_union : ∀ s t : Set (X × X), IsControlled s → IsControlled t → IsControlled (s ∪ t)
