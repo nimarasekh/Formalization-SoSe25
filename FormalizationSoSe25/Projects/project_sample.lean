@@ -33,8 +33,6 @@ class CoarseSpace (X : Type*) where
 
 -- proof that any metric space is coarse
 
---open scoped Classical in
-
 
 def π₁ {X : Type*} {s : Set (X×X)} (x:X× X) (h : x∈ s) : X := by
   let ⟨ x₁, x₂⟩ := x
@@ -46,13 +44,31 @@ def π₂ {X : Type*} {s : Set (X×X)} (x:X× X) (h : x∈ s) : X := by
 
 def dist_set {X : Type*} [MetricSpace X] (s : Set (X×X)) : Set ℝ := { dist (π₁ x h) (π₂ x h) | (x:X×X) (h:x∈ s) }
 
+lemma nonempty_set_distset {X : Type*} [MetricSpace X] (s : Set (X×X)) : s.Nonempty → (dist_set s).Nonempty := by
+  intro non_s
+  have (x : X× X) (h : x ∈ s):= by
+    exact non_s
+  sorry
+
+
 
 def exists_diam {X : Type*} [MetricSpace X] (s : Set (X×X)) : Prop := (dist_set s).Nonempty ∧ BddAbove (dist_set s)
 
 
 instance (X : Type*) [MetricSpace X] : CoarseSpace X where
   IsControlled := exists_diam
-  IsControlled_union := sorry
+  IsControlled_union := by
+    rintro s t ⟨non_s, bd_s⟩ ⟨non_t, bd_t⟩
+    constructor
+    have hs : ∃ x : ℝ , x ∈ (dist_set s) := by
+      exact non_s
+    sorry
+
+
+
+
+
+
   IsControlled_diag := sorry
   IsControlled_inv := sorry
   IsControlled_prod := sorry
