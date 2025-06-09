@@ -4,6 +4,7 @@ import Mathlib.Tactic
   and the diagonal set as a neutral element. These will be needed in order to define coarse spaces.
 -/
 
+/- Why is this definition not just the identity? -/
 section set_operations
   def SetInv {X : Type*} (sub : Set (X × X)) : Set (X × X) := by
     rintro  ⟨ e1, e2 ⟩
