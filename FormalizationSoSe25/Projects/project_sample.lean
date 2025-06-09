@@ -4,7 +4,15 @@ import Mathlib.Tactic
   and the diagonal set as a neutral element. These will be needed in order to define coarse spaces.
 -/
 
-/- Why is this definition not just the identity? -/
+/-
+Nima: No need to merge this pull request, but you can use the comments to adjust things.
+-/
+
+
+/-
+Nima: Why is this definition not just the identity? Note this also works:
+def SetInv {X : Type*} (sub : Set (X × X)) : Set (X × X) := sub
+-/
 section set_operations
   def SetInv {X : Type*} (sub : Set (X × X)) : Set (X × X) := by
     rintro  ⟨ e1, e2 ⟩
@@ -12,6 +20,9 @@ section set_operations
 
   def SetDiag (X : Type*) : Set (X×X) := {⟨x,x⟩| x : X }
 
+/-
+Nima: This would benefit from an explanation of the definition.
+-/
   def SetProd {X : Type*} (sub₁ : Set (X × X))  (sub₂ : Set (X × X)) : Set (X × X) := by
     rintro e
     have indicator : (X × X) → Prop := by
@@ -82,6 +93,11 @@ def exists_diam {X : Type*} [MetricSpace X] (s : Set (X×X)) : Prop := (dist_set
 
 end lemmas_defs_for_metric_coarse
 
+
+/-
+Nima: This looks really cool!
+If you want to discuss this at some point, let me know.
+-/
 -- Proof that every MetricSpace is a CoarseSpace
 
 instance (X : Type*) [MetricSpace X] : CoarseSpace X where
