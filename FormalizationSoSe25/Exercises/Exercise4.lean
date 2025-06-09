@@ -22,18 +22,45 @@ section contradiction
 
 -- This first one should not require `by_contra`.
 example (P : Prop) (h : P) : ¬¬P := by
-  sorry
+  intro hp
+  exact hp h
 
 example (P : Prop) (h : ¬¬P) : P := by
-  sorry
+  by_contra p
+  exact h p
 
 example (P : Prop) : (P → ¬P) → ¬P := by
-  sorry
+  intro h
+  by_contra p
+  exact (h p) p
+
 
 -- Let's prove the famous De Morgan's laws.
 -- Note these two are harder than the three previous ones.
 example (P Q : Prop) : ¬ (P ∨ Q) ↔ ¬P ∧ ¬Q := by
-  sorry
+  constructor
+  intro h
+
+  constructor
+  intro p
+  apply h
+  left
+  exact p
+
+  intro q
+  apply h
+  right
+  exact q
+
+  intro f
+  by_contra g
+  have f1 := f.left
+  have f2 := f.right
+  rcases g with g1|g2
+  exact f1 g1
+  exact f2 g2
+
+
 
 example (P Q : Prop) : ¬ (P ∧ Q) ↔ ¬P ∨ ¬Q := by
   sorry
@@ -66,6 +93,7 @@ end indexed_operations
 section set_theory
 
 example (X : Type ) (a : X) : a ∈ (∅ : Set X) → False := by
+  intro ha
   sorry
 
 

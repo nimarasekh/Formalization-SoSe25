@@ -2,8 +2,8 @@
 
 Please fill out the following. You can fill in the project topic once you have decided.
 ```
-Name:
-Project topic:
+Name: Jonas Harder
+Project topic: Coarse Equivalence of R^n and Z^n
 ```
 
 ## Your own project
