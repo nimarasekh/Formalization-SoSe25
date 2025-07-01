@@ -3,14 +3,39 @@
 import Mathlib.Tactic
 -- Theoretically, you could just write `import Mathlib`, but this will be somewhat slower.
 
-/- Remember we can open namespaces to shorten names and enable notation.
+-- aus Exercise 8
 
-For example (feel free to change it): -/
-open Function Set
+open Finset Fintype
+variable {X : Type*} [DecidableEq X]
 
-/- Remember if many new definitions require a `noncomputable` either in the `section` or definition.
+example (A B : Finset X) :
+  #(A ∪ B) = #A  + #B  -  #(A ∩ B)  := by rw [card_union]
 
-For example (feel free to change it): -/
-noncomputable section
+example (A B : Finset X) :
+  #(A ∪ B) ≤ #A + #B := by
+  calc
+    #(A ∪ B) = #A  + #B  -  #(A ∩ B)  := by rw [card_union]
+    _≤ #A + #B := by simp -- simp ist Sammeltaktik
 
-/- You can now start writing definitions and theorems. -/
+
+lemma Schnitt {A B C : Finset X}:(A ∩ C ∩ (B ∩ C)) = (A ∩ C ∩ B):= by
+  calc
+    (A ∩ C ∩ (B ∩ C)) = (A ∩ C ∩ (C ∩ B)) := by rw [Finset.inter_comm B C]
+    _= (A ∩ C ∩ C ∩ B) := by simp
+    _= (A ∩ (C ∩ C) ∩ B) := by simp
+    _= (A ∩ C ∩ B) := by simp
+
+
+example (A B C : Finset X) :
+  #(A ∪ B ∪ C) ≥ #A + #B + #C - #(A ∩ B) - #(A ∩ C) - #(B ∩ C) := by
+  let H : Finset X := A ∪ B
+  calc
+    #(A ∪ B ∪ C) = #(H ∪ C) := by sorry
+    _= #H + #C - #(H ∩ C) := by rw [card_union]
+    _= #A + #B - #(A ∩ B) + #C - #((A ∪ B) ∩ C) := by sorry
+    _= #A + #B - #(A ∩ B) + #C - #((A ∩ C) ∪ (B ∩ C)) := by rw [← Finset.union_inter_distrib_right]
+    _= #A + #B - #(A ∩ B) + #C - (#(A ∩ C) + #(B ∩ C) - #(A ∩ C ∩ (B ∩ C))) := by rw [card_union]
+    _= #A + #B - #(A ∩ B) + #C - (#(A ∩ C) + #(B ∩ C) - #(A ∩ C ∩ B)) := by rw [Schnitt]
+    _= #A + #B - #(A ∩ B) + #C - #(A ∩ C) - #(B ∩ C) + #(A ∩ B ∩ C) := by sorry -- Idee: rw [sub_add_eq_sub_sub]
+    _≥ #A + #B - #(A ∩ B) + #C - #(A ∩ C) - #(B ∩ C) := by simp
+    _= #A + #B + #C - #(A ∩ B) - #(A ∩ C) - #(B ∩ C) := by sorry -- Idee: Kommutativität der natürlichen Zahlen aber zählt Lean die Kardinalität von Mengen auch als natürliche Zahlen?
