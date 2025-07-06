@@ -154,6 +154,10 @@ Topological spaces are easy to define in this setting.
 #check TopologicalSpace
 #check MetricSpace
 
+variable (X : Type) [topX : TopologicalSpace X]
+
+#check topX.IsOpen
+
 /-
 But a first concept one wants is continuity and convergence.
 -/
