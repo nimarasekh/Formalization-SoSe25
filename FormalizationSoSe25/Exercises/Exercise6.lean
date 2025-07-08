@@ -24,7 +24,11 @@ Let's start with the easy case.
 Show that every `Group₄` gives us a `Group₅`.
 Here you probably want to use `Group₅.mk`.
 -/
-def group4_to_group5 {G : Type*} [Group₄ G] : Group₅ G := sorry
+
+#check Group₅.mk
+def group4_to_group5 {G : Type*} [Group₄ G] : Group₅ G :=
+  Group₅.mk (Group₄.inv_dia)
+
 
 /-
 Now, we also go the other way around.
@@ -36,6 +40,8 @@ These two lemmas should be provable using only:
 - `have`
 and the structure of `Monoid₁` and `Group₅`.
 -/
+
+
 lemma equal_inverses {M : Type*} [Monoid₁ M] {a b c : M} (hba : b ⋄ a = 𝟙) (hac : a ⋄ c = 𝟙) : b = c := by
   sorry
 
