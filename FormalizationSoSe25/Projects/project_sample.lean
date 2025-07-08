@@ -45,3 +45,18 @@ example (A B C : Finset X) :
     _= #A + #B - #(A ∩ B) + #C - #(A ∩ C) - #(B ∩ C) + #(A ∩ B ∩ C) := by sorry -- Idee: rw [sub_add_eq_sub_sub] oder rw [Nat.sub_add_eq]
     _≥ #A + #B - #(A ∩ B) + #C - #(A ∩ C) - #(B ∩ C) := by simp
     _= #A + #B + #C - #(A ∩ B) - #(A ∩ C) - #(B ∩ C) := by sorry -- Idee: Kommutativität der natürlichen Zahlen aber zählt Lean die Kardinalität von Mengen auch als natürliche Zahlen?
+
+
+
+section induction_assumption_try
+
+open Finset
+
+variable {ι α G : Type*} [DecidableEq α]
+  [AddCommGroup G] [PartialOrder G] [IsOrderedAddMonoid G]
+
+theorem sum_biUnion_le_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
+    ∑ a in s.biUnion S, f a ≤ ∑ i in s, ∑ a in S i, f a := by
+    sorry
+
+end induction_assumption_try
