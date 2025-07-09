@@ -1,12 +1,17 @@
 -- Here is a first `import Mathlib.Tactic` to get things started.
 -- Based on the definitions you need, you can add more imports right below.
+
 import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Pi
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Module.BigOperators
 
 -- Theoretically, you could just write `import Mathlib`, but this will be somewhat slower.
 
 -- aus Exercise 8
-
+open_locale big_operators
 open Finset Fintype
+
 variable {X G : Type*} [DecidableEq X] [AddCommGroup G] [PartialOrder G]
 /-
 wie mache ich das #X automatisch als natürliche Zahl von Lean interpretiert wird?
@@ -24,6 +29,10 @@ Kardinalität verallgemeinern zu Funktion f. Allerdings komme ich hier nicht wei
 Habe überlegt mit image f (A∪B) zu arbeiten aber das funktioniert iwie auch noch nicht.
 Hab das Gefühl, dass Lean nicht erkennt das f (A ∪ B) auch in G lebt.
 -/
+lemma inter_finset_funktion {A B : Finset X} {f : Finset X → G} :
+  f (A ∩ B) ≤ f A := by sorry
+
+
 lemma union_finset {A B : Finset X} :
   (A ∪ B) = Finset X := by sorry
 
@@ -94,13 +103,13 @@ variable {ι α G : Type*} [DecidableEq α]
 -- wie schreibe ich eine Summe von p=1 bis k?
 -- KI hat mir hier nichts brauchbares geliefert
 theorem sum_biUnion_le_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≤ ∑ (p : finset.range 1 (k+1)), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by
+    ∑ a ∈ s.biUnion S, f a ≤ ∑ (p in finset.range (k+1), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a : G) := by
     sorry
 
 
 -- Schranke k ist hier gerade
 theorem sum_biUnion_ge_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≥ ∑ (p : finset.range 1 (k+1)), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by
+    ∑ a ∈ s.biUnion S, f a ≥ ∑ (p in finset.range (k+1), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a : G) := by
     sorry
 
 /-
@@ -114,4 +123,4 @@ Das Theorem soll verallgemeinert werden für trunkierte Version:
 -/
 theorem inclusion_exclusion_sum_biUnion (s : Finset ι) (S : ι → Finset α) (f : α → G) :
     ∑ a ∈ s.biUnion S, f a = ∑ t : s.powerset.filter (·.Nonempty),
-      (-1) ^ (#t.1 + 1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a
+      (-1) ^ (#t.1 + 1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by sorry
