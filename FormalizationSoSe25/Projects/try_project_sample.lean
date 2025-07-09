@@ -1,6 +1,7 @@
 -- Here is a first `import Mathlib.Tactic` to get things started.
 -- Based on the definitions you need, you can add more imports right below.
 import Mathlib.Tactic
+
 -- Theoretically, you could just write `import Mathlib`, but this will be somewhat slower.
 
 -- aus Exercise 8
@@ -89,14 +90,17 @@ variable {ι α G : Type*} [DecidableEq α]
 
 -- Induktion über Schranke k, aufgeteilt in gerade und ungerade Fälle
 
--- Schranke k ist hier gerade
+-- Schranke k ist hier ungerade
+-- wie schreibe ich eine Summe von p=1 bis k?
+-- KI hat mir hier nichts brauchbares geliefert
 theorem sum_biUnion_le_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≤ ∑ i ∈ s, ∑ a ∈ S i, f a := by
+    ∑ a ∈ s.biUnion S, f a ≤ ∑ (p : finset.range 1 (k+1)), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by
     sorry
 
--- Schranke k ist hier ungerade
+
+-- Schranke k ist hier gerade
 theorem sum_biUnion_ge_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≥ ∑ i ∈ s, ∑ a ∈ S i, f a := by
+    ∑ a ∈ s.biUnion S, f a ≥ ∑ (p : finset.range 1 (k+1)), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by
     sorry
 
 /-
