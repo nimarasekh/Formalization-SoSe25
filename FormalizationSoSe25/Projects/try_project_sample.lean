@@ -87,12 +87,27 @@ variable {ι α G : Type*} [DecidableEq α]
   [IsOrderedAddMonoid G] liefert Fehlermeldung, deswegen habe ich es erstmal weggelassen, da dann kein Fehler mehr auftaucht
   -/
 
+-- Induktion über Schranke k, aufgeteilt in gerade und ungerade Fälle
+
+-- Schranke k ist hier gerade
 theorem sum_biUnion_le_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
     ∑ a ∈ s.biUnion S, f a ≤ ∑ i ∈ s, ∑ a ∈ S i, f a := by
     sorry
 
+-- Schranke k ist hier ungerade
+theorem sum_biUnion_ge_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
+    ∑ a ∈ s.biUnion S, f a ≥ ∑ i ∈ s, ∑ a ∈ S i, f a := by
+    sorry
+
 /-
-worüber soll hier die Induktion laufen?
+worüber soll hier die Induktion laufen? -> k aber in Form von n=2k und n=2k-1
 -/
 
 end induction_assumption_try
+
+/-
+Das Theorem soll verallgemeinert werden für trunkierte Version:
+-/
+theorem inclusion_exclusion_sum_biUnion (s : Finset ι) (S : ι → Finset α) (f : α → G) :
+    ∑ a ∈ s.biUnion S, f a = ∑ t : s.powerset.filter (·.Nonempty),
+      (-1) ^ (#t.1 + 1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a
