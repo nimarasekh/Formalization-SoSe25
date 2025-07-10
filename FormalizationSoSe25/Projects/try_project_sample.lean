@@ -9,7 +9,7 @@ import Mathlib.Algebra.Module.BigOperators
 -- Theoretically, you could just write `import Mathlib`, but this will be somewhat slower.
 
 -- aus Exercise 8
-open_locale big_operators
+open BigOperators
 open Finset Fintype
 
 variable {X G : Type*} [DecidableEq X] [AddCommGroup G] [PartialOrder G]
@@ -89,38 +89,28 @@ example (A B C : Finset X) :
 
 section induction_assumption_try
 
+open BigOperators
 open Finset
 
 variable {ι α G : Type*} [DecidableEq α]
   [AddCommGroup G] [PartialOrder G]
+variable (r : ℕ)
+
   /-
   [IsOrderedAddMonoid G] liefert Fehlermeldung, deswegen habe ich es erstmal weggelassen, da dann kein Fehler mehr auftaucht
   -/
 
--- Induktion über Schranke k, aufgeteilt in gerade und ungerade Fälle
+-- trunkierte Version von theorem inclusion_exclusion_sum_biUnion, aufgeteilt in gerade und ungerade Fälle
 
--- Schranke k ist hier ungerade
--- wie schreibe ich eine Summe von p=1 bis k?
--- KI hat mir hier nichts brauchbares geliefert
-theorem sum_biUnion_le_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≤ ∑ (p in finset.range (k+1), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a : G) := by
-    sorry
+/- wie mache ich hier dass die range Funktion bis 2r geht? range (2r) soll {0,1,...,2r-1} sein
+deswegen habe ich im Exponenten in der Summe p statt p-1 (bzw. p+1), weil die Summe jetzt
+mit 0 startet und nicht mit 1 und bis 2r-1 geht statt bis 2r. Die Anzahl der Elemente über die
+abgeschätzt wird bleibt dadurch ja aber gerade.-/
 
+theorem incl_excl_sum_biUnion_trunk_even (s : Finset ι) (S : ι → Finset α) (f : α → G) :
+  ∑ a ∈ s.biUnion S, f a ≥ ∑ p ∈ (range (2r)).filter (·.Nonempty), (-1) ^ p • ∑ a ∈ p.inf' S, f a := by sorry
 
--- Schranke k ist hier gerade
-theorem sum_biUnion_ge_sum (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a ≥ ∑ (p in finset.range (k+1), (-1) ^ (p-1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a : G) := by
-    sorry
-
-/-
-worüber soll hier die Induktion laufen? -> k aber in Form von n=2k und n=2k-1
--/
+theorem incl_excl_sum_biUnion_trunk_odd (s : Finset ι) (S : ι → Finset α) (f : α → G) :
+  ∑ a ∈ s.biUnion S, f a ≤ ∑ p ∈ (range (2r+1)).filter (·.Nonempty), (-1) ^ p • ∑ a ∈ p.inf' S, f a := by sorry
 
 end induction_assumption_try
-
-/-
-Das Theorem soll verallgemeinert werden für trunkierte Version:
--/
-theorem inclusion_exclusion_sum_biUnion (s : Finset ι) (S : ι → Finset α) (f : α → G) :
-    ∑ a ∈ s.biUnion S, f a = ∑ t : s.powerset.filter (·.Nonempty),
-      (-1) ^ (#t.1 + 1) • ∑ a ∈ t.1.inf' (mem_filter.1 t.2).2 S, f a := by sorry
