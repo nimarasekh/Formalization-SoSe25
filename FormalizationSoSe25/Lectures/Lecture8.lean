@@ -363,7 +363,7 @@ of all prime factors of `n`.
 
 example : 2 ∈ Nat.primeFactorsList 36 := by
   simp
-  exact Nat.prime_two
+
 
 /-
 In general, constructing such a list is not easy.
