@@ -32,7 +32,6 @@ Hab das Gefühl, dass Lean nicht erkennt das f (A ∪ B) auch in G lebt.
 lemma inter_finset_funktion {A B : Finset X} {f : Finset X → G} :
   f (A ∩ B) ≤ f A := by sorry
 
-
 lemma union_finset {A B : Finset X} :
   (A ∪ B) = Finset X := by sorry
 
@@ -40,7 +39,7 @@ example (A B : Finset X) (f : Finset X → G) :
   f (A ∪ B) = f A + f B - f (A ∩ B) := by
   rcases
   · left
-    f (A ∪ B) = Set.image f (A ∪ B) = {x : G | ∃ (a : X), a ∈ A ∪ B ∧ f a = x }:= by sorry
+    f (A ∪ B) = Set.image f (A ∪ B) = {x : G | ∃ (a : X), a ∈ A ∪ B ∨ f a = x }:= by sorry
   · right
     sorry
 /-
