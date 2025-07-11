@@ -131,6 +131,8 @@ theorem inclusion_exclusion_card_biUnion (s : Finset ι) (S : ι → Finset α) 
 
 variable [Fintype α]
 
-
+theorem incl_excl_sum_biUnion_trunk_test (s : Finset ι) (S : ι → Finset α) (f : α → G):
+   ∑ a ∈ s.biUnion S, f a ≤ ∑ ⟨t, tcond⟩ : s.powerset.filter (fun t => t.Nonempty ∧ Finset.card t ≤ k),
+      (-1) ^ (#t + 1) • ∑ a ∈ t.inf' (mem_filter.1 tcond).2.1 S, f a := by sorry
 
 end Finset
